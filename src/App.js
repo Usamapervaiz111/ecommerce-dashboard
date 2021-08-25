@@ -6,6 +6,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Ecommerce Header</h1>
+        <h1>Ecommerce Header</h1>
+        <h1>Ecommerce Header</h1>
+        <h1>Ecommerce Header</h1>
+        <h1>Ecommerce Header</h1>
         <Button>Hello</Button>
 
       </header>
