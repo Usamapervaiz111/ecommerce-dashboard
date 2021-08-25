@@ -1,18 +1,36 @@
-import { Button } from 'react-bootstrap';
+// import { Button } from 'react-bootstrap';
 import './App.css';
+import Header from './Navbar';
+import AddProduct from './AddProduct';
+import UpdateProduct from './UpdateProduct';
+import Login from './Login';
+import Register from './Register';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Ecommerce Header</h1>
-        <h1>Ecommerce Header</h1>
-        <h1>Ecommerce Header</h1>
-        <h1>Ecommerce Header</h1>
-        <h1>Ecommerce Header</h1>
-        <Button>Hello</Button>
+      <BrowserRouter>
+        <Header />
+        <Route path="/AddProduct">
+          <AddProduct />
+        </Route>
 
-      </header>
+        <Route path="/UpdateProduct">
+          <UpdateProduct />
+        </Route>
+
+        <Route path="/Login">
+          <Login />
+        </Route>
+
+        <Route path="/Register">
+          <Register />
+        </Route>
+
+      </BrowserRouter>
+
+
     </div>
   );
 }
