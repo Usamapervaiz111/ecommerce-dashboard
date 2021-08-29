@@ -2,6 +2,7 @@ import { Form, Button, Container } from 'react-bootstrap';
 import React, { useState, } from 'react';
 function Register() {
 
+
     const [register, setRegister] = useState({
         username: '',
         email: '',
@@ -30,7 +31,7 @@ function Register() {
         setPasswordError({ inputPasswordError: 'false' })
     }
 
-    const registerButton = (e) => {
+    const registerButton =async (e) => {
         e.preventDefault();
 
 
@@ -50,6 +51,23 @@ function Register() {
         } else {
             setPasswordError({ inputPasswordError: 'true' })
         }
+
+        const data = {
+            name: register.username,
+            email: register.email,
+            password: register.password,
+        }
+
+       let result=await fetch('http://127.0.0.1:8000/api/register', {
+          method:'POST',
+          headers:{
+              "Content-Type":"json/application",
+              "Accept":"json/application"
+          },
+          body:JSON.stringify(data)
+       })
+       result=await result.json();
+       console.log("result",result)
     }
 
 
