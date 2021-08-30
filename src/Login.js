@@ -1,7 +1,16 @@
+import React, { useState,useEffect } from 'react';
+import { useHistory } from 'react-router';
 import { Form, Button, Container } from 'react-bootstrap';
-import React, { useState, } from 'react';
+import Header from './Navbar';
 function Login() {
 
+    const redirect=useHistory();
+
+useEffect(()=>{
+    if(localStorage.getItem('User-details:')){
+        redirect.push('/Register')
+    }
+},)
     const [login, setLogin] = useState({
         email: '',
         password: '',
@@ -24,12 +33,12 @@ function Login() {
         setPasswordError({ inputPasswordError: 'false' })
     }
 
-    const registerButton = (e) => {
+    const registerButton =async (e) => {
         e.preventDefault();
 
 
         if (login.email !== '') {
-            setEmailError({ inputEmailError: 'false' })
+
         } else {
             setEmailError({ inputEmailError: 'true' })
         }
@@ -39,6 +48,22 @@ function Login() {
         } else {
             setPasswordError({ inputPasswordError: 'true' })
         }
+
+        const data={
+            email:login.email,
+            password:login.password,
+        }
+        const loginRes=await fetch("api/Login",{
+            method:'POST',
+            headers:{
+                'Accept':'json/application',
+                'Content-Type':'json/application',
+            },
+            body:JSON.stringify(data)
+        });
+        const res=await loginRes.json();
+        console.log(res);
+
     }
 
 
@@ -48,6 +73,7 @@ function Login() {
 
 
         <div div className="App" >
+            <Header/>
             <Container>
                 <h1 style={{ marginTop: 100, }} className="text-center">Login Your Self</h1>
                 <Form style={{ paddingLeft: 250, paddingRight: 250, marginTop: 20, }} onSubmit={registerButton}>

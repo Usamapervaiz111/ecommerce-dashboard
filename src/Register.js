@@ -1,7 +1,22 @@
+import React, { useState,useEffect } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
-import React, { useState, } from 'react';
+import { useHistory } from 'react-router';
+import Header from './Navbar';
 function Register() {
 
+    // useEffect(()=>{
+    // if(localStorage.getItem('User-deatils:')){
+    //     redirect.push('/AddProduct')
+    // }
+    // },[])
+
+
+
+    useEffect(() => {
+        if(localStorage.getItem('User-details:')) {
+             redirect.push('/AddProduct') 
+             }
+      },);
 
     const [register, setRegister] = useState({
         username: '',
@@ -20,7 +35,7 @@ function Register() {
         inputPasswordError: 'false',
     });
 
-
+    const redirect=useHistory();
 
     const inputValue = (e) => {
         e.preventDefault();
@@ -34,7 +49,7 @@ function Register() {
     const registerButton =async (e) => {
         e.preventDefault();
 
-
+       
         if (register.email !== '') {
             setEmailError({ inputEmailError: 'false' })
         } else {
@@ -58,16 +73,23 @@ function Register() {
             password: register.password,
         }
 
-       let result=await fetch('http://127.0.0.1:8000/api/register', {
-          method:'POST',
-          headers:{
-              "Content-Type":"json/application",
-              "Accept":"json/application"
-          },
-          body:JSON.stringify(data)
-       })
-       result=await result.json();
-       console.log("result",result)
+        let result=await fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+            });
+            localStorage.setItem("User-details:",JSON.stringify(data))
+            const res=await result.json();
+            console.log(res)
+            if(!register.username || !register.email || !register.password){
+                
+            }else{
+                redirect.push('/AddProduct');
+            }
+
     }
 
 
@@ -77,6 +99,7 @@ function Register() {
 
 
         <div div className="App" >
+            <Header/>
             <Container>
                 <h1 style={{ marginTop: 100, }} className="text-center">Register Your Self</h1>
                 <Form style={{ paddingLeft: 250, paddingRight: 250, marginTop: 20, }} onSubmit={registerButton}>

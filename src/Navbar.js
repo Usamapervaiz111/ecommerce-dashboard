@@ -11,10 +11,20 @@ function Navbars() {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Link className="navItem" to="/AddProduct">Add Product</Link>
-                            <Link className="navItem" to="/UpdateProduct">Update Product</Link>
-                            <Link className="navItem" to="/Login">Login</Link>
-                            <Link className="navItem" to="/Register">Register</Link>
+                            {
+                                localStorage.getItem('User-details:')
+                                ?
+                                <>
+                                <Link className="navItem" to="/AddProduct">Add Product</Link>
+                                <Link className="navItem" to="/UpdateProduct">Update Product</Link>  
+                                </>
+                                :
+                                <>
+                                 <Link className="navItem" to="/Login">Login</Link>
+                                 <Link className="navItem" to="/Register">Register</Link>
+                                </>
+                            }
+                        
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
