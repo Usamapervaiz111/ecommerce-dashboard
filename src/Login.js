@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import { useHistory } from 'react-router';
+import axios from 'axios'
 import { Form, Button, Container } from 'react-bootstrap';
 import Header from './Navbar';
 function Login() {
@@ -8,7 +9,7 @@ function Login() {
 
 useEffect(()=>{
     if(localStorage.getItem('User-details:')){
-        redirect.push('/Register')
+        redirect.push('/AddProduct')
     }
 },)
     const [login, setLogin] = useState({
@@ -18,10 +19,14 @@ useEffect(()=>{
 
     const [errorEmail, setEmailError] = useState({
         inputEmailError: 'false',
+        inputEmailInvalid: 'false',
     });
     const [errorPassword, setPasswordError] = useState({
-        inputPasswordError: 'false',
+        inputPassword: 'false',
+        inputPasswordInvalid: 'false',
     });
+
+
 
 
 
@@ -33,36 +38,46 @@ useEffect(()=>{
         setPasswordError({ inputPasswordError: 'false' })
     }
 
-    const registerButton =async (e) => {
+    const registerButton =(e) => {
         e.preventDefault();
 
+        if(login.email === '' || login.password === ''){
 
-        if (login.email !== '') {
+            if (login.email !== '') {
 
-        } else {
-            setEmailError({ inputEmailError: 'true' })
+            } else {
+                setEmailError({ inputEmailError: 'true' })
+            }
+    
+            if (login.password !== '') {
+    
+            } else {
+                setPasswordError({ inputPasswordError: 'true' })
+            }
+
+        }else{
+            const data={
+                email:login.email,
+                password:login.password,
+            }
+            
+    
+                axios.post("api/login/",data)
+                .then(response => {
+                 localStorage.setItem('User-details:',JSON.stringify(response.data));
+                 console.log(response.data)
+                 redirect.push("/AddProduct");
+               }).catch(error=>{
+                console.log(error)
+                setEmailError({ inputEmailInvalid: 'true' })
+                setPasswordError({ inputPasswordInvalid: 'true' })
+               })
         }
 
-        if (login.password !== '') {
+      
 
-        } else {
-            setPasswordError({ inputPasswordError: 'true' })
-        }
-
-        const data={
-            email:login.email,
-            password:login.password,
-        }
-        const loginRes=await fetch("api/Login",{
-            method:'POST',
-            headers:{
-                'Accept':'json/application',
-                'Content-Type':'json/application',
-            },
-            body:JSON.stringify(data)
-        });
-        const res=await loginRes.json();
-        console.log(res);
+    
+        
 
     }
 
@@ -83,12 +98,14 @@ useEffect(()=>{
                         <Form.Control style={errorEmail.inputEmailError === 'true' ? styles.inputErrorShow : null} name="email" value={login.email} onChange={inputValue} type="email" placeholder="Enter email" />
                     </Form.Group>
                     {errorEmail.inputEmailError === 'true' ? <p style={styles.textErrorShow}>Enter Your Email Field</p> : null}
+                    {errorEmail.inputEmailInvalid === 'true' ? <p style={styles.textErrorInvalid}>Invalid Email</p> : null}
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
                         <Form.Control style={errorPassword.inputPasswordError === 'true' ? styles.inputErrorShow : null} name="password" value={login.password} onChange={inputValue} type="password" placeholder="Password" />
                     </Form.Group>
                     {errorPassword.inputPasswordError === 'true' ? <p style={styles.textErrorShow}>Enter Your Password Field</p> : null}
+                    {errorPassword.inputPasswordInvalid === 'true' ? <p style={styles.textErrorInvalid}>Invalid Password</p> : null}
 
                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
                         <Form.Check type="checkbox" label="Remember" />
@@ -111,6 +128,11 @@ const styles = ({
         border: '2px solid red',
     },
     textErrorShow: {
+        color: 'red',
+        marginBottom: 10,
+        marginTop: -15,
+    },
+    textErrorInvalid: {
         color: 'red',
         marginBottom: 10,
         marginTop: -15,

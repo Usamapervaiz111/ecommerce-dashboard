@@ -1,14 +1,11 @@
 .App {
   background-color: #282c34;
   color: white;
-  height: 100vh;
-
+  /* height: 150vh; */
 }
-.navItem{
-margin-left: 20px;
-margin-right: 20px;
-color:#303133;
-text-decoration: none;
+.navItem {
+  margin-left: 20px;
+  margin-right: 20px;
+  color: #303133;
+  text-decoration: none;
 }
-
-

@@ -7,7 +7,7 @@ function Protected(props) {
     let Cmp=props.cmp
 useEffect(()=>{
     if(!localStorage.getItem('User-details:')){
-        redirect.push('/Register')
+        redirect.push('/Login')
     }
 },)
 

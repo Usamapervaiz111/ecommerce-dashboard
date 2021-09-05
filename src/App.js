@@ -1,7 +1,7 @@
 // import { Button } from 'react-bootstrap';
 import './App.css';
 import AddProduct from './AddProduct';
-import UpdateProduct from './UpdateProduct';
+import ShowProduct from './ShowProduct';
 import Login from './Login';
 import Register from './Register';
 import Protected from './Protected';
@@ -15,8 +15,8 @@ function App() {
          <Protected cmp={AddProduct} />
         </Route>
 
-        <Route path="/UpdateProduct">
-          <Protected cmp={UpdateProduct}/>
+        <Route path="/ShowProduct">
+          <Protected cmp={ShowProduct}/>
         </Route>
 
         <Route path="/Login">
